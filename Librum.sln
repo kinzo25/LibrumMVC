@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarpeLibrum", "CarpeLibrum\CarpeLibrum.csproj", "{2D8DDAAA-70CD-414E-9B15-62D929EF6FA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarpeLibrum", "CarpeLibrum\CarpeLibrum.csproj", "{2D8DDAAA-70CD-414E-9B15-62D929EF6FA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarpeLibrumRazor", "CarpeLibrumWeb\CarpeLibrumRazor.csproj", "{1D9477AC-96C2-4365-A3DB-43666C284BC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2D8DDAAA-70CD-414E-9B15-62D929EF6FA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D8DDAAA-70CD-414E-9B15-62D929EF6FA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D8DDAAA-70CD-414E-9B15-62D929EF6FA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D9477AC-96C2-4365-A3DB-43666C284BC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D9477AC-96C2-4365-A3DB-43666C284BC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D9477AC-96C2-4365-A3DB-43666C284BC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D9477AC-96C2-4365-A3DB-43666C284BC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
