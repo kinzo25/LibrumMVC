@@ -1,9 +1,10 @@
-﻿using CarpeLibrum.Models;
+﻿using Librum.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace CarpeLibrum.Controllers
+namespace CarpeLibrum.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
