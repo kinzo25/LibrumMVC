@@ -1,0 +1,70 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "Delete Product";
+}
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg- m-lg-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-primary py-2">Create Product</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p4">
+        <form method="post" class="row">
+            <div class="border p-3">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="mb-3 row p-1">
+                    <label asp-for="Title" class="p-0"></label>
+                    <input asp-for="Title" disabled class="form-control" />
+                   
+                </div>
+                <div class="mb-3 row p-1">
+                    <label asp-for="Description" class="p-0"></label>
+                    <textarea asp-for="Description" class="form-control" disabled></textarea>
+                    
+                </div>
+                <div class="mb-3 row p-1">
+                    <label asp-for="ISBN" class="p-0"></label>
+                    <input asp-for="ISBN" disabled class="form-control" />
+                    
+                </div>
+                <div class="mb-3 row p-1">
+                    <label asp-for="Author" class="p-0"></label>
+                    <input asp-for="Author" disabled class="form-control" />
+                    
+                </div>
+                <div class="mb-3 row p-1">
+                    <label asp-for="ListPrice" class="p-0"></label>
+                    <input asp-for="ListPrice" disabled class="form-control" />
+                    
+                </div>
+                <div class="mb-3 row p-1">
+                    <label asp-for="Price" class="p-0"></label>
+                    <input asp-for="Price" disabled class="form-control" />
+                    
+                </div>
+                <div class="mb-3 row p-1">
+                    <label asp-for="Price50" class="p-0"></label>
+                    <input asp-for="Price50" disabled class="form-control" />
+                    
+                </div>
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-success form-control">Create</button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Product" asp-action="Index" class="btn btn-secondary form-control">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

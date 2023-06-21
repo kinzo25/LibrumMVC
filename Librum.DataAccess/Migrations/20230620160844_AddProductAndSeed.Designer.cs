@@ -3,6 +3,7 @@ using Librum.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Librum.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230620160844_AddProductAndSeed")]
+    partial class AddProductAndSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,18 +83,11 @@ namespace Librum.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ISBN")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -110,8 +106,6 @@ namespace Librum.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Products");
 
                     b.HasData(
@@ -119,10 +113,8 @@ namespace Librum.DataAccess.Migrations
                         {
                             Id = 1,
                             Author = "Mary Shelley",
-                            CategoryId = 4,
                             Description = "Frankenstein; or, The Modern Prometheus is an 1818 novel written by English author Mary Shelley. Frankenstein tells the story of Victor Frankenstein, a young scientist who creates a sapient creature in an unorthodox scientific experiment. ",
                             ISBN = "FRNK8347",
-                            ImageUrl = "",
                             ListPrice = 12.99,
                             Price = 10.99,
                             Price50 = 8.4900000000000002,
@@ -132,10 +124,8 @@ namespace Librum.DataAccess.Migrations
                         {
                             Id = 2,
                             Author = "Enid Blyton",
-                            CategoryId = 1,
                             Description = "What is the secret of the old castle on the hill, and why are the locals so afraid of it? When flashing lights are seen in a distant tower, Philip, Dinah, Lucy-Ann, and Jack decide to investigate—and discover a very sinister plot concealed within its hidden rooms and gloomy underground passages.",
                             ISBN = "ADVN3758",
-                            ImageUrl = "",
                             ListPrice = 7.9900000000000002,
                             Price = 6.9900000000000002,
                             Price50 = 4.4900000000000002,
@@ -145,10 +135,8 @@ namespace Librum.DataAccess.Migrations
                         {
                             Id = 3,
                             Author = "Agatha Christie",
-                            CategoryId = 3,
                             Description = "A group of passengers trapped on the Orient Express in a snow storm with a murdered body and a Belgian detective to keep them company: Murder on the Orient Express is one of Agatha Christie’s most famous stories. It's an intricate mystery revolving around a group of characters cut off from the world where Poirot exhibits not only the power of his little grey cells but his concern and compassion for humanity.",
                             ISBN = "MOOE5038",
-                            ImageUrl = "",
                             ListPrice = 12.49,
                             Price = 9.9900000000000002,
                             Price50 = 8.4900000000000002,
@@ -158,10 +146,8 @@ namespace Librum.DataAccess.Migrations
                         {
                             Id = 4,
                             Author = "Alistar MacLean",
-                            CategoryId = 2,
                             Description = "An entire navy had tried to silence the guns of Navarone and failed. Full-scale attacks had been driven back. Now they were sending in just five men, each one a specialist in dealing death.",
                             ISBN = "GNVR3892",
-                            ImageUrl = "",
                             ListPrice = 5.9900000000000002,
                             Price = 4.9900000000000002,
                             Price50 = 3.4900000000000002,
@@ -171,10 +157,8 @@ namespace Librum.DataAccess.Migrations
                         {
                             Id = 5,
                             Author = "Amish Tripathi",
-                            CategoryId = 1,
                             Description = "1900 BC. In what modern Indians mistakenly call the Indus Valley Civilisation. The inhabitants of that period called it the land of Meluha : a near perfect empire created many centuries earlier by Lord Ram, one of the greatest monarchs that ever lived. This once proud empire and its Suryavanshi rulers face severe perils. The only hope for the Suryavanshis is an ancient legend: 'When evil reaches epic proportions, when all seems lost, when it appears that your enemies have triumphed, a hero will emerge.'",
                             ISBN = "IMEL2561",
-                            ImageUrl = "",
                             ListPrice = 13.99,
                             Price = 11.49,
                             Price50 = 9.9900000000000002,
@@ -184,26 +168,13 @@ namespace Librum.DataAccess.Migrations
                         {
                             Id = 6,
                             Author = "Chitra Banerjee Divakaruni",
-                            CategoryId = 1,
                             Description = "Taking us back to a time that is half history, half myth and wholly magical, bestselling author Chitra Banerjee Divakaruni gives voice to Panchaali, the fire-born heroine of the Mahabharata, as she weaves a vibrant retelling of an ancient epic saga. Married to five royal husbands who have been cheated out of their father's kingdom, Panchaali aids their quest to reclaim their birthright, remaining at their side through years of exile and a terrible civil war. But she cannot deny her complicated friendship with the enigmatic Krishna--or her secret attraction to the mysterious man who is her husbands' most dangerous enemy--as she is caught up in the ever-manipulating hands of fate.",
                             ISBN = "POIL2947",
-                            ImageUrl = "",
                             ListPrice = 15.49,
                             Price = 12.99,
                             Price50 = 10.99,
                             Title = "The Palace of Illusions"
                         });
-                });
-
-            modelBuilder.Entity("Librum.Models.Product", b =>
-                {
-                    b.HasOne("Librum.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }
