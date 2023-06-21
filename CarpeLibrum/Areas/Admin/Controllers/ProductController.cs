@@ -48,6 +48,18 @@ namespace CarpeLibrum.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                if (file != null) //upload file and save it into the folder
+                {
+                    string fileName = Guid.NewGuid().ToString()+Path.GetExtension(file.FileName);
+                    string productPath = Path.Combine(wwwRootPath, @"images\product");
+                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    pvm.Product.ImageUrl = @"\images\product\" + fileName;
+                }
+                
                 _unitOfWork.ProductRepository.Add(pvm.Product);
                 _unitOfWork.Save();
                 TempData["success"] = "Product created successfully!";
@@ -92,8 +104,30 @@ namespace CarpeLibrum.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Edit(ProductViewModel pvm, IFormFile file)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                if (file != null) //upload file and save it into the folder
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string productPath = Path.Combine(wwwRootPath, @"images\product");
+
+                    if (!String.IsNullOrEmpty(pvm.Product.ImageUrl))
+                    {
+                        //new file is updated, delete old one add new one
+                        var oldImagePath = Path.Combine(wwwRootPath,pvm.Product.ImageUrl.TrimStart('\\'));
+                        if(System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    pvm.Product.ImageUrl = @"\images\product\" + fileName;
+                }
                 _unitOfWork.ProductRepository.Update(pvm.Product);
                 _unitOfWork.Save();
                 TempData["success"] = "Product updated successfully!";
