@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing.Constraints;
 using System.Collections.Generic;
-
+using System.Reflection.Metadata.Ecma335;
 
 namespace CarpeLibrum.Areas.Admin.Controllers
 {
@@ -23,7 +23,7 @@ namespace CarpeLibrum.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            List<Product> objProdList = _unitOfWork.ProductRepository.GetAll().ToList();
+            List<Product> objProdList = _unitOfWork.ProductRepository.GetAll(includeProperties:"Category").ToList();
             
             return View(objProdList); 
         }
@@ -128,7 +128,7 @@ namespace CarpeLibrum.Areas.Admin.Controllers
                     }
                     pvm.Product.ImageUrl = @"\images\product\" + fileName;
                 }
-                _unitOfWork.ProductRepository.Update(pvm.Product);
+                    _unitOfWork.ProductRepository.Update(pvm.Product);
                 _unitOfWork.Save();
                 TempData["success"] = "Product updated successfully!";
                 return RedirectToAction("index");
@@ -243,17 +243,37 @@ namespace CarpeLibrum.Areas.Admin.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePost(int? id)
         {
-            Product c = _unitOfWork.ProductRepository.Get(c => c.Id == id);
-            if (c == null)
+            Product p = _unitOfWork.ProductRepository.Get(p => p.Id == id);
+            if (p == null)
             {
+                TempData["error"] = "Error while deleting";
                 return NotFound();
             }
-            _unitOfWork.ProductRepository.Delete(c);
+
+            var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, p.ImageUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+        
+
+            _unitOfWork.ProductRepository.Delete(p);
             _unitOfWork.Save();
             TempData["success"] = "Product deleted successfully!";
             return RedirectToAction("Index");
 
         }
 
+
+        #region API calls
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            List<Product> objProdList = _unitOfWork.ProductRepository.GetAll(includeProperties: "Category").ToList();
+            return Json(new { data = objProdList });
+        }
+
+        #endregion
     }
 }
