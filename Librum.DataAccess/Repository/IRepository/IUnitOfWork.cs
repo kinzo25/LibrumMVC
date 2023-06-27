@@ -10,6 +10,7 @@ namespace Librum.DataAccess.Repository.IRepository
     {
         ICategoryRepository CategoryRepository { get; }
         IProductRepository ProductRepository { get; }
+        ISchoolRepository SchoolRepository { get; }
         void Save();
     }
 }

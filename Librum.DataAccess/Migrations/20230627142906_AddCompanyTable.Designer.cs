@@ -4,6 +4,7 @@ using Librum.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Librum.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230627142906_AddSchoolTable")]
+    partial class AddSchoolTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -193,70 +196,6 @@ namespace Librum.DataAccess.Migrations
                             Price = 12.99,
                             Price50 = 10.99,
                             Title = "The Palace of Illusions"
-                        });
-                });
-
-            modelBuilder.Entity("Librum.Models.School", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StreetAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Schools");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            City = "Philadelphia",
-                            Name = "St. Rufus Boarding School",
-                            PhoneNumber = "2617358603",
-                            PostalCode = "38584",
-                            State = "PA",
-                            StreetAddress = "1234 Saints Ave"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            City = "Trenton",
-                            Name = "Bauxbaton Academy",
-                            PhoneNumber = "1839459603",
-                            PostalCode = "08345",
-                            State = "NJ",
-                            StreetAddress = "643 Rue de Baguette"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            City = "Frederick",
-                            Name = "Monster High",
-                            PhoneNumber = "2464367809",
-                            PostalCode = "28904",
-                            State = "MD",
-                            StreetAddress = "34-A Wolfe St"
                         });
                 });
 
@@ -480,17 +419,11 @@ namespace Librum.DataAccess.Migrations
                     b.Property<string>("PostalCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SchoolId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StreetAddress")
                         .HasColumnType("nvarchar(max)");
-
-                    b.HasIndex("SchoolId");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
@@ -555,17 +488,6 @@ namespace Librum.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Librum.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("Librum.Models.School", "School")
-                        .WithMany()
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("School");
                 });
 #pragma warning restore 612, 618
         }

@@ -7,6 +7,20 @@
     margin: auto 0.25rem;
     box-shadow:0-2px;
 }
+
+#left{
+    float:left;
+    text-align:left;
+    padding-right:10px;
+}
+#center{
+    text-align:center;
+}
+#right{
+    float:right;
+    text-align:right;
+    padding-left:10px;
+}
 html {
   font-size: 14px;
 }

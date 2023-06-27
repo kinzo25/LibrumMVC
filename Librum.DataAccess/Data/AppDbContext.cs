@@ -13,6 +13,8 @@ namespace Librum.DataAccess.Data
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<School> Schools { get; set; }
+
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -54,7 +56,7 @@ namespace Librum.DataAccess.Data
                     Id = 3,
                     Title = "Murder on the Orient Express",
                     Author = "Agatha Christie",
-                    Description = "A group of passengers trapped on the Orient Express in a snow storm with a murdered body and a Belgian detective to keep them company: Murder on the Orient Express is one of Agatha Christie’s most famous stories. It's an intricate mystery revolving around a group of characters cut off from the world where Poirot exhibits not only the power of his little grey cells but his concern and compassion for humanity.",
+                    Description = "A group of passengers trapped on the Orient Express in a snow storm with a murdered body and a Belgian detective to keep them school: Murder on the Orient Express is one of Agatha Christie’s most famous stories. It's an intricate mystery revolving around a group of characters cut off from the world where Poirot exhibits not only the power of his little grey cells but his concern and compassion for humanity.",
                     ISBN = "MOOE5038",
                     ListPrice = 12.49,
                     Price = 9.99,
@@ -102,6 +104,39 @@ namespace Librum.DataAccess.Data
                     ImageUrl = ""
                 }
                 ) ;
+
+            modelBuilder.Entity<School>().HasData(
+                new School
+                {
+                    Id=1,
+                    Name= "St. Rufus Boarding School",
+                    StreetAddress= "1234 Saints Ave",
+                    City= "Philadelphia",
+                    State= "PA",
+                    PostalCode="38584",
+                    PhoneNumber="2617358603",
+                },
+                new School
+                {
+                    Id = 2,
+                    Name = "Bauxbaton Academy",
+                    StreetAddress = "643 Rue de Baguette",
+                    City = "Trenton",
+                    State = "NJ",
+                    PostalCode = "08345",
+                    PhoneNumber = "1839459603",
+                },
+                new School
+                {
+                    Id = 3,
+                    Name = "Monster High",
+                    StreetAddress = "34-A Wolfe St",
+                    City = "Frederick",
+                    State = "MD",
+                    PostalCode = "28904",
+                    PhoneNumber = "2464367809",
+                }
+                );
         }
     }
 }

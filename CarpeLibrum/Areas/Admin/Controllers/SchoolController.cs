@@ -16,69 +16,40 @@ namespace CarpeLibrum.Areas.Admin.Controllers
 {
     [Area("Admin")]
     //[Authorize(Roles = SD.Role_Admin)]
-    public class ProductController : Controller
+    public class SchoolController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+        public SchoolController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult Index()
         {
-            List<Product> objProdList = _unitOfWork.ProductRepository.GetAll(includeProperties:"Category").ToList();
+            List<School> objProdList = _unitOfWork.SchoolRepository.GetAll().ToList();
             
             return View(objProdList); 
         }
 
         public IActionResult Create()
         {
-            ProductViewModel pvm = new()
-            {
-                CategoryList = _unitOfWork.CategoryRepository.GetAll().Select(u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                }),
-                Product = new Product()
-            };
-            return View(pvm); 
+            return View(new School()); 
         }
 
         [HttpPost]
-        public IActionResult Create(ProductViewModel pvm, IFormFile file) 
+        public IActionResult Create(School c) 
         {
 
             if (ModelState.IsValid)
             {
-                string wwwRootPath = _webHostEnvironment.WebRootPath;
-                if (file != null) //upload file and save it into the folder
-                {
-                    string fileName = Guid.NewGuid().ToString()+Path.GetExtension(file.FileName);
-                    string productPath = Path.Combine(wwwRootPath, @"images\product");
-                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
-                    {
-                        file.CopyTo(fileStream);
-                    }
-                    pvm.Product.ImageUrl = @"\images\product\" + fileName;
-                }
                 
-                _unitOfWork.ProductRepository.Add(pvm.Product);
+                _unitOfWork.SchoolRepository.Add(c);
                 _unitOfWork.Save();
-                TempData["success"] = "Product created successfully!";
+                TempData["success"] = "School created successfully!";
                 return RedirectToAction("index");
             }
-            else
-            {
-                pvm.CategoryList = _unitOfWork.CategoryRepository.GetAll().Select(u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                });
-                
-                return View(pvm);
-            }
+
+                return View(c);
             
         }
 
@@ -88,65 +59,27 @@ namespace CarpeLibrum.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            Product productFromDb = _unitOfWork.ProductRepository.Get(u => u.Id == id);
-            ProductViewModel pvm = new()
-            {
-                CategoryList = _unitOfWork.CategoryRepository.GetAll().Select(u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                }),
-                Product = productFromDb
-            };
-            if (productFromDb == null)
+            School schoolFromDb = _unitOfWork.SchoolRepository.Get(u => u.Id == id);
+            
+            if (schoolFromDb == null)
             {
                 return NotFound();
             }
-            return View(pvm);
+            return View(schoolFromDb);
         }
 
         [HttpPost]
-        public IActionResult Edit(ProductViewModel pvm, IFormFile file)
+        public IActionResult Edit(School c)
         {
             if (ModelState.IsValid)
             {
-                string wwwRootPath = _webHostEnvironment.WebRootPath;
-                if (file != null) //upload file and save it into the folder
-                {
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string productPath = Path.Combine(wwwRootPath, @"images\product");
-
-                    if (!String.IsNullOrEmpty(pvm.Product.ImageUrl))
-                    {
-                        //new file is updated, delete old one add new one
-                        var oldImagePath = Path.Combine(wwwRootPath,pvm.Product.ImageUrl.TrimStart('\\'));
-                        if(System.IO.File.Exists(oldImagePath))
-                        {
-                            System.IO.File.Delete(oldImagePath);
-                        }
-                    }
-
-                    using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
-                    {
-                        file.CopyTo(fileStream);
-                    }
-                    pvm.Product.ImageUrl = @"\images\product\" + fileName;
-                }
-                    _unitOfWork.ProductRepository.Update(pvm.Product);
+                _unitOfWork.SchoolRepository.Update(c);
                 _unitOfWork.Save();
-                TempData["success"] = "Product updated successfully!";
+                TempData["success"] = "School updated successfully!";
                 return RedirectToAction("index");
             }
-            
-            {
-                pvm.CategoryList = _unitOfWork.CategoryRepository.GetAll().Select(u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                });
+                return View(c);
 
-                return View(pvm);
-            }
         }
 
         //public IActionResult Upsert(int? id)
@@ -237,33 +170,25 @@ namespace CarpeLibrum.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            Product productFromDb = _unitOfWork.ProductRepository.Get(c => c.Id == id);
-            if (productFromDb == null)
+            School c = _unitOfWork.SchoolRepository.Get(c => c.Id == id);
+            if (c == null)
             {
                 return NotFound();
             }
-            return View(productFromDb);
+            return View(c);
         }
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePost(int? id)
         {
-            Product p = _unitOfWork.ProductRepository.Get(p => p.Id == id);
-            if (p == null)
+            School c = _unitOfWork.SchoolRepository.Get(p => p.Id == id);
+            if (c == null)
             {
                 TempData["error"] = "Error while deleting";
                 return NotFound();
             }
-
-            var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, p.ImageUrl.TrimStart('\\'));
-            if (System.IO.File.Exists(oldImagePath))
-            {
-                System.IO.File.Delete(oldImagePath);
-            }
-        
-
-            _unitOfWork.ProductRepository.Delete(p);
+            _unitOfWork.SchoolRepository.Delete(c);
             _unitOfWork.Save();
-            TempData["success"] = "Product deleted successfully!";
+            TempData["success"] = "School deleted successfully!";
             return RedirectToAction("Index");
 
         }

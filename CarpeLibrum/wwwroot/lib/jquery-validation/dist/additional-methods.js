@@ -161,7 +161,7 @@ $.validator.addMethod( "bic", function( value, element ) {
  *   A. Corporations
  *   B. LLCs
  *   C. General partnerships
- *   D. Companies limited partnerships
+ *   D. Schools limited partnerships
  *   E. Communities of goods
  *   F. Cooperative Societies
  *   G. Associations
@@ -716,7 +716,7 @@ $.validator.addMethod( "netmask", function( value, element ) {
  *
  * The NIE is the equivalent of a Spaniards Número de Identificación Fiscal (NIF) which serves as a fiscal
  * identification number. The CIF number (Certificado de Identificación Fiscal) is equivalent to the NIF, but applies to
- * companies rather than individuals. The NIE consists of an 'X' or 'Y' followed by 7 or 8 digits then another letter.
+ * schools rather than individuals. The NIE consists of an 'X' or 'Y' followed by 7 or 8 digits then another letter.
  */
 $.validator.addMethod( "nieES", function( value, element ) {
 	"use strict";
@@ -782,7 +782,7 @@ $.validator.addMethod( "nifES", function( value, element ) {
 }, "Please specify a valid NIF number." );
 
 /*
- * Numer identyfikacji podatkowej ( NIP ) is the way tax identification used in Poland for companies
+ * Numer identyfikacji podatkowej ( NIP ) is the way tax identification used in Poland for schools
  */
 $.validator.addMethod( "nipPL", function( value ) {
 	"use strict";

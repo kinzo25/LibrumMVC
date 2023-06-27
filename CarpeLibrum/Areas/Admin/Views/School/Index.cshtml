@@ -1,0 +1,56 @@
+﻿@model List<School>
+@{
+    ViewData["Title"] = "Product List";
+}
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg- m-lg-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-primary py-2">School List</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <div class="row pb-3">
+            
+
+        <div class="col-12 text-end">
+            <a class="btn btn-success" asp-controller="School" asp-action="Create"> <i class="bi bi-plus-square"></i> &nbsp Add School</a>
+        </div>
+        </div>
+        <table id="#tblData" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Phone number</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.Name</td>
+                    <td>@p.StreetAddress</td>
+                    <td>@p.City                                                                                                                                                                   e</td>
+                    <td>@p.State</td>
+                    <td>@p.PhoneNumber</td>
+                    <td>
+                        <div class=" w-75 btn-group" role="group">
+                            <a asp-controller="School" asp-action="Edit" asp-route-id="@p.Id" class="btn btn-info mx-2"><i class="bi bi-pencil-fill"></i></a>
+                            <a asp-controller="School" asp-action="Delete" asp-route-id="@p.Id" class="btn btn-danger mx-2"><i class="bi bi-trash3-fill"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/product.js"></script>
+}

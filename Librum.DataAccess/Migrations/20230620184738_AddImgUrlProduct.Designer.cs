@@ -149,7 +149,7 @@ namespace Librum.DataAccess.Migrations
                             Id = 3,
                             Author = "Agatha Christie",
                             CategoryId = 3,
-                            Description = "A group of passengers trapped on the Orient Express in a snow storm with a murdered body and a Belgian detective to keep them company: Murder on the Orient Express is one of Agatha Christie’s most famous stories. It's an intricate mystery revolving around a group of characters cut off from the world where Poirot exhibits not only the power of his little grey cells but his concern and compassion for humanity.",
+                            Description = "A group of passengers trapped on the Orient Express in a snow storm with a murdered body and a Belgian detective to keep them school: Murder on the Orient Express is one of Agatha Christie’s most famous stories. It's an intricate mystery revolving around a group of characters cut off from the world where Poirot exhibits not only the power of his little grey cells but his concern and compassion for humanity.",
                             ISBN = "MOOE5038",
                             ImageUrl = "",
                             ListPrice = 12.49,
