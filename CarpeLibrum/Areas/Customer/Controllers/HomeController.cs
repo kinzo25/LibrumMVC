@@ -1,7 +1,10 @@
-﻿using Librum.DataAccess.Repository.IRepository;
+﻿using Librum.DataAccess.Repository;
+using Librum.DataAccess.Repository.IRepository;
 using Librum.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace CarpeLibrum.Areas.Customer.Controllers
 {
@@ -24,8 +27,39 @@ namespace CarpeLibrum.Areas.Customer.Controllers
         }
         public IActionResult Details(int id)
         {
-           Product p = _unitOfWork.ProductRepository.Get(u=>u.Id==id,includeProperties: "Category");
-            return View(p);
+            ShoppingCart cart = new()
+            {
+                Product = _unitOfWork.ProductRepository.Get(u=>u.Id==id,includeProperties: "Category"),
+                ProductId = id,
+                Count=1
+            };
+            return View(cart);
+        }
+        [HttpPost]
+        [Authorize]
+        public IActionResult Details(ShoppingCart cart)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            cart.ApplicationUserId = userId;
+
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCartRepository.Get(u => u.ApplicationUserId == userId && u.ProductId == cart.ProductId);
+
+            if(cartFromDb != null)
+            {
+                //cart exists, update the count
+                cartFromDb.Count += cart.Count;
+                _unitOfWork.ShoppingCartRepository.Update(cartFromDb);
+            }
+            else
+            {
+                //add cart entry
+                _unitOfWork.ShoppingCartRepository.Add(cart);
+            }
+
+            TempData["success"] = "Cart Updated Successfully!";
+            _unitOfWork.Save();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Privacy()

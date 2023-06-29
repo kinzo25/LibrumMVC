@@ -9,22 +9,17 @@ using System.Threading.Tasks;
 
 namespace Librum.DataAccess.Repository
 {
-    public class CategoryRepository : Repository<Category>, ICategoryRepository
+    public class OrderDetailRepository : Repository<OrderDetail>, IOrderDetailRepository
     {
         private AppDbContext _db;
-        public CategoryRepository(AppDbContext db) : base(db)
+        public OrderDetailRepository(AppDbContext db) : base(db)
         {
             _db = db;
         }
 
-        public void Update(Category c)
+        public void Update(OrderDetail c)
         {
-            _db.Categories.Update(c);
+            _db.OrderDetails.Update(c);
         }
-
-        //custom helper methods
-        
-        
-
     }
 }

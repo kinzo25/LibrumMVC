@@ -9,22 +9,17 @@ using System.Threading.Tasks;
 
 namespace Librum.DataAccess.Repository
 {
-    public class CategoryRepository : Repository<Category>, ICategoryRepository
+    public class ShoppingCartRepository : Repository<ShoppingCart>, IShoppingCartRepository
     {
         private AppDbContext _db;
-        public CategoryRepository(AppDbContext db) : base(db)
+        public ShoppingCartRepository(AppDbContext db) : base(db)
         {
             _db = db;
         }
 
-        public void Update(Category c)
+        public void Update(ShoppingCart s)
         {
-            _db.Categories.Update(c);
+            _db.ShoppingCarts.Update(s);
         }
-
-        //custom helper methods
-        
-        
-
     }
 }

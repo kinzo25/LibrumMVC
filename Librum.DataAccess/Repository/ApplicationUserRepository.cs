@@ -9,22 +9,13 @@ using System.Threading.Tasks;
 
 namespace Librum.DataAccess.Repository
 {
-    public class CategoryRepository : Repository<Category>, ICategoryRepository
+    public class ApplicationUserRepository : Repository<ApplicationUser>, IApplicationUserRepository
     {
         private AppDbContext _db;
-        public CategoryRepository(AppDbContext db) : base(db)
+        public ApplicationUserRepository(AppDbContext db) : base(db)
         {
             _db = db;
         }
-
-        public void Update(Category c)
-        {
-            _db.Categories.Update(c);
-        }
-
-        //custom helper methods
-        
-        
 
     }
 }
