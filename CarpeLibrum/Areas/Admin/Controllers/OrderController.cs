@@ -170,7 +170,7 @@ namespace CarpeLibrum.Areas.Admin.Controllers
             var options = new SessionCreateOptions
             {
                 SuccessUrl = domain + $"/admin/order/PaymentConfirmation?orderHeaderId={OrderVM.OrderHeader.OrderHeaderId}",
-                CancelUrl = domain + $"/admin/order/details?orderId={OrderVM.OrderHeader.OrderHeaderId}",
+                CancelUrl = domain + $"/admin/order/details?id={OrderVM.OrderHeader.OrderHeaderId}",
                 LineItems = new List<SessionLineItemOptions>(),
                 Mode = "payment",
             };
@@ -204,6 +204,7 @@ namespace CarpeLibrum.Areas.Admin.Controllers
         public IActionResult PaymentConfirmation(int orderHeaderId)
         {
             OrderHeader orderHeader = _unitOfWork.OrderHeaderRepository.Get(u => u.OrderHeaderId == orderHeaderId);
+
             if (orderHeader.PaymentStatus == SD.PaymentStatusDelayedPayment)
             {
                 //school customer order. check if they have paid
@@ -213,6 +214,7 @@ namespace CarpeLibrum.Areas.Admin.Controllers
                 {
                     _unitOfWork.OrderHeaderRepository.UpdateStripePaymentId(orderHeaderId, session.Id, session.PaymentIntentId);
                     _unitOfWork.OrderHeaderRepository.UpdateStatus(orderHeaderId, orderHeader.OrderStatus, SD.PaymentStatusApproved);
+                    _unitOfWork.Save();
                 }
             }
 
