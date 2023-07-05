@@ -96,7 +96,7 @@ namespace CarpeLibrum.Areas.Customer.Controllers
             else
             {
 				//school, leave them alone for a month
-				ShoppingCartVM.OrderHeader.OrderStatus = SD.PaymentStatusDelayedPayment;
+				ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusDelayedPayment;
 				ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusApproved;
 			}
             _unitOfWork.OrderHeaderRepository.Add(ShoppingCartVM.OrderHeader);
