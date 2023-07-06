@@ -170,12 +170,15 @@ namespace CarpeLibrum.Areas.Customer.Controllers
                 {
                     _unitOfWork.OrderHeaderRepository.UpdateStripePaymentId(id, session.Id, session.PaymentIntentId);
                     _unitOfWork.OrderHeaderRepository.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
+                    _unitOfWork.Save();
                 }
+
+                HttpContext.Session.Clear();
             }
 
             List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCartRepository.GetAll(u=>u.ApplicationUserId==orderHeader.ApplicationUserId).ToList();
             _unitOfWork.ShoppingCartRepository.DeleteRange(shoppingCarts);
-            _unitOfWork.Save();
+            
             return View(id);
         }
 
@@ -197,6 +200,7 @@ namespace CarpeLibrum.Areas.Customer.Controllers
             if (cartFromDb.Count == 1)
             {
                 //remove from db
+                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCartRepository.GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
                 _unitOfWork.ShoppingCartRepository.Delete(cartFromDb);
             }
             else
@@ -211,7 +215,9 @@ namespace CarpeLibrum.Areas.Customer.Controllers
         public IActionResult Remove(int cartId)
         {
             var cartFromDb = _unitOfWork.ShoppingCartRepository.Get(u => u.ShoppingCartId == cartId);
+            HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCartRepository.GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
             _unitOfWork.ShoppingCartRepository.Delete(cartFromDb);
+            
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }

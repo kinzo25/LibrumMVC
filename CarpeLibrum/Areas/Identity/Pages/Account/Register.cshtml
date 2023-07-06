@@ -8,7 +8,15 @@
     <div class="card-header bg-dark m-lg-0 py-4">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="py-2 text-white">Register</h2>
+                @if (User.IsInRole(Librum.Utility.SD.Role_Admin) || User.IsInRole(Librum.Utility.SD.Role_Employee))
+                {
+                    <h2 class="py-2 text-white">Register - Admin Portal</h2>
+                }
+                else
+                {
+                    <h2 class="py-2 text-white">Register</h2>
+                }
+                
             </div>
         </div>
     </div>
@@ -64,17 +72,21 @@
                         <label asp-for="Input.PostalCode" class="ms-2 text-muted">Postal Code</label>
                         <span asp-validation-for="Input.PostalCode" class="text-danger"></span>
                     </div>
-
-                    <div class="form-floating mb-3 col-md-6">
-                        <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
-                            <option disabled selected>--Select Role--</option>
-                        </select>
-                    </div>
-                    <div class="form-floating mb-3 col-md-6">
-                        <select asp-for="Input.SchoolId" style="display:none" asp-items="@Model.Input.SchoolList" class="form-select">
-                            <option disabled selected>--Select School--</option>
-                        </select>
-                    </div>
+                    @if (User.IsInRole(Librum.Utility.SD.Role_Admin) || User.IsInRole(Librum.Utility.SD.Role_Employee))
+                    {
+                        <div class="form-floating mb-3 col-md-6">
+                            <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
+                                <option disabled selected>--Select Role--</option>
+                            </select>
+                        </div>
+                        <div class="form-floating mb-3 col-md-6">
+                            <select asp-for="Input.SchoolId" style="display:none" asp-items="@Model.Input.SchoolList" class="form-select">
+                                <option disabled selected>--Select School--</option>
+                            </select>
+                        </div>
+                    }
+                    
+                    
                     <div class="col-12">
                         <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
                     </div>

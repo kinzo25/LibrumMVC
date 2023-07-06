@@ -119,6 +119,10 @@ namespace CarpeLibrum.Areas.Admin.Controllers
             orderHeaderFromDb.OrderStatus = SD.StatusShipped;
             orderHeaderFromDb.ShippingDate = DateTime.Now;
 
+            if (orderHeaderFromDb.PaymentStatus == SD.PaymentStatusDelayedPayment)
+            {
+                orderHeaderFromDb.PaymentDueDate = DateTime.Now.AddDays(30); // net 30
+            }
 
             _unitOfWork.OrderHeaderRepository.Update(orderHeaderFromDb);
             _unitOfWork.Save();

@@ -1,4 +1,8 @@
-﻿@using Librum.Utility
+﻿
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@using Librum.Utility
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,25 +41,39 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="Admin" asp-controller="Order" asp-action="Index">Manage Orders</a>
                             </li>
-@*                            @if (User.IsInRole(SD.Role_Admin))
-                            {*@
+                            @if (User.IsInRole(SD.Role_Admin))
+                            {
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Content Management</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item " asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
                                         <a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
                                         <a class="dropdown-item" asp-area="Admin" asp-controller="School" asp-action="Index">School</a>
+                                        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Create User</a>
                                     </div>
                                 </li>
-                            @*}*@
+                            }
                         </ul>
                     </div>
                     <div class="align-content-center col-lg-4" id="center">
-                        <a class="navbar-brand btn btn-lg" style="font-family: 'Comforter', cursive;width:200px;" asp-area="" asp-controller="Home" asp-action="Index"><h1> Carpe Librum </h1></a>
+                        <a class="navbar-brand" style="font-family: 'Comforter', cursive;width:200px;" asp-area="" asp-controller="Home" asp-action="Index"><h1> Carpe Librum </h1></a>
                     </div>
                     <div id="right" class="col-lg-4">
                         <partial name="_LoginPartial"></partial>
-                        <a class="nav-link text-light" asp-area="Customer" asp-controller="Cart" asp-action="Index"><i class="bi bi-cart4"></i>&nbsp;</a>
+                        @if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCart) != null)
+                        {
+                            <a class="nav-link text-light" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                                <i class="bi bi-cart4"></i>&nbsp;
+                                (@HttpContextAccessor.HttpContext.Session.GetInt32(SD.SessionCart))
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="nav-link text-light" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                                <i class="bi bi-cart4"></i>&nbsp;
+                                (0)
+                            </a>
+                        }
                     </div>
                 </div>
             </div>

@@ -208,7 +208,15 @@ namespace CarpeLibrum.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        if (User.IsInRole(Librum.Utility.SD.Role_Admin) || User.IsInRole(Librum.Utility.SD.Role_Employee))
+                        {
+                            TempData["success"] = "New User Created Successfully!";
+                        }
+                        else
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                        }
+                            
                         return LocalRedirect(returnUrl);
                     }
                 }

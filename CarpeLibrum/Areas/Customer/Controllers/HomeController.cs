@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
+using Librum.Utility;
+using Microsoft.AspNetCore.Http;
 
 namespace CarpeLibrum.Areas.Customer.Controllers
 {
@@ -22,6 +24,14 @@ namespace CarpeLibrum.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            if(claim != null)
+            {
+                //user is logged in
+                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCartRepository.GetAll(u => u.ApplicationUserId ==claim.Value).Count());
+            }
+
             IEnumerable<Product> productList = _unitOfWork.ProductRepository.GetAll(includeProperties: "Category");
             return View(productList);
         }
@@ -50,15 +60,18 @@ namespace CarpeLibrum.Areas.Customer.Controllers
                 //cart exists, update the count
                 cartFromDb.Count += cart.Count;
                 _unitOfWork.ShoppingCartRepository.Update(cartFromDb);
+                _unitOfWork.Save();
             }
             else
             {
                 //add cart entry
                 _unitOfWork.ShoppingCartRepository.Add(cart);
+                _unitOfWork.Save();
+                HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCartRepository.GetAll(u => u.ApplicationUserId == userId).Count()); 
             }
 
             TempData["success"] = "Cart Updated Successfully!";
-            _unitOfWork.Save();
+            
             return RedirectToAction("Index");
         }
 
