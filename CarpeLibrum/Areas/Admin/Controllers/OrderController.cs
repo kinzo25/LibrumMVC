@@ -170,7 +170,7 @@ namespace CarpeLibrum.Areas.Admin.Controllers
             OrderVM.OrderDetails = _unitOfWork.OrderDetailRepository.GetAll(u => u.OrderHeaderId == OrderVM.OrderHeader.OrderHeaderId, includeProperties: "Product");
 
             //stripe logic here
-            var domain = "https://localhost:7199";
+            var domain = Request.Scheme+"://"+Request.Host.Value+"/";
             var options = new SessionCreateOptions
             {
                 SuccessUrl = domain + $"/admin/order/PaymentConfirmation?orderHeaderId={OrderVM.OrderHeader.OrderHeaderId}",
